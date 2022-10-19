@@ -36,3 +36,17 @@
     transform: rotate(360deg);
   }
 }
+.inputPrice {
+  font-size: large;
+}
+.buyTokens {
+  background-color: red;
+  width: max-content;
+  padding: 10px 20px;
+  font-size: larger;
+  color: white;
+  border: none;
+}
+.connect {
+  font-size: larger;
+}
