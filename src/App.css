@@ -48,5 +48,47 @@
   border: none;
 }
 .connect {
+  background-color: red;
+  color: white;
   font-size: larger;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px 10px;
+  margin-top: 2ch;
+  margin-right: 2ch;
+}
+.welcome {
+  position: absolute;
+  top: 0;
+  font-size: 60px;
+}
+.connected {
+  width: 30ch;
+}
+.tokenListing {
+  font-size: larger;
+  position: absolute;
+  top: 0;
+  margin-top: 9ch;
+  left: 0;
+  margin-left: 2ch;
+  border: 2px solid red;
+  background-color: lightgray;
+  padding: 3px;
+  color: black;
+}
+.tokenPrice {
+  font-size: larger;
+  position: absolute;
+  top: 0;
+  margin-top: 14ch;
+  left: 0;
+  margin-left: 2ch;
+  border: 2px solid red;
+  background-color: lightgray;
+  padding: 3px;
+  color: black;
+}
+.andromeda {
 }

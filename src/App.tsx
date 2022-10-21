@@ -25,7 +25,7 @@ function App(this: any) {
     // And it also injects the helper function to `window.keplr`.
     // If `window.getOfflineSigner` or `window.keplr` is null, Keplr extension may be not installed on browser.
     if (!window.getOfflineSigner || !window.keplr) {
-      alert("Please install keplr extension");
+      alert("Please install Keplr extension!");
     } else {
       try {
         // Keplr v0.6.4 introduces an experimental feature that supports the feature to suggests the chain from a webpage.
@@ -187,21 +187,27 @@ function App(this: any) {
     );
     setOwned(owned.balance);
   };
-
+  //hon
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Welcome to the Demo!</p>
+        {/* <img src={logo} className="App-logo" alt="logo" /> */}
+        {/* <img src="andromeda.jpeg" className="andromeda" alt="logo " /> */}
+        <p className="welcome">Welcome to the Demo!</p>
+        <p className="tokenListing">Token listing 1: ___ tokens </p>
+
         {connected ? (
-          <p> You are connected with the address: {address}</p>
+          <p className="connected">
+            {" "}
+            You are connected with the address: {address}
+          </p>
         ) : (
           <button className="connect" onClick={connect}>
             Connect Wallet
           </button>
         )}
-        <p>PRICE PER TOKEN = {price} </p>
-        <p> Input number of tokens you would like to buy: </p>
+        <p className="tokenPrice">PRICE PER TOKEN = {price} </p>
+        <p> Input number of tokens you would like to purchase : </p>
 
         <input
           className="inputPrice"
