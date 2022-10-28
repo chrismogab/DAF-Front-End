@@ -1,23 +1,43 @@
 import React, { useEffect, useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
-import { coins, GasPrice } from "@cosmjs/launchpad";
+import {
+  isMsgInstantiateContractEncodeObject,
+  SigningCosmWasmClient,
+} from "@cosmjs/cosmwasm-stargate";
+import {
+  coins,
+  executeKdf,
+  GasPrice,
+  uint64ToNumber,
+  uint64ToString,
+} from "@cosmjs/launchpad";
+
 import { Decimal } from "@cosmjs/math";
+import { tokenToString } from "typescript";
 
 function App(this: any) {
   const [client, setClient] = useState<SigningCosmWasmClient>();
   const [connected, setConnected] = useState(false);
   const [address, setAddress] = useState("");
   const [price, setPrice] = useState(2);
+  const [initialListing, setInitialListing] = useState(10000);
   const [amount, setAmount] = useState(0);
   const [owned, setOwned] = useState(0);
+  const [totalAmountOfTokensMinted, setTotalAmountOftokensMinted] = useState(0);
+  const [usdcBalance, setUsdcBalance] = useState(0);
+  const [chris, setChris] = useState(0);
+
+  // let totalAmount = 10000;
+
   useEffect(() => {
     if (address == "") {
       setConnected(false);
     }
     connect();
     getOwned();
+    getTotalAmountOfTokensMinted();
+    getUsdcBalance();
   }, [connected]);
   const connect = async () => {
     // Keplr extension injects the offline signer that is compatible with cosmJS.
@@ -175,6 +195,7 @@ function App(this: any) {
       },
       "auto"
     );
+    // totalAmount -= amount;
   };
   const handleChange = (event: any) => {
     setAmount(event.target.value);
@@ -187,14 +208,40 @@ function App(this: any) {
     );
     setOwned(owned.balance);
   };
+
+  //honn w rayehhh
+
+  const getTotalAmountOfTokensMinted = async () => {
+    const totalAmountOfTokensMinted = await client?.queryContractSmart(
+      "juno1mzaulfpfg4mf5r82kwmg46u3zjqjwsza4gvnven42sd7nn0kyssq08enc2",
+      { token_info: {} }
+    );
+    // console.log(totalAmountOfTokensMinted.token_supply);
+    setTotalAmountOftokensMinted(totalAmountOfTokensMinted.total_supply);
+    const chris = await (initialListing -
+      totalAmountOfTokensMinted.total_supply);
+    setChris(chris);
+  };
+
   //hon
+  // @ts-ignore
+  const getUsdcBalance = async () => {
+    const usdcBalance = await client?.queryContractSmart(
+      "juno1j5t7acre67qwd0xst5pa0auauxf968q9jn9td6z5ww5nh4pvnddsuccsac",
+      { balance: { address: address } }
+    );
+    setUsdcBalance(usdcBalance.balance);
+  };
+
   return (
     <div className="App">
       <header className="App-header">
         {/* <img src={logo} className="App-logo" alt="logo" /> */}
         {/* <img src="andromeda.jpeg" className="andromeda" alt="logo " /> */}
-        <p className="welcome">Welcome to the Demo!</p>
-        <p className="tokenListing">Token listing 1: ___ tokens </p>
+        <p className="dafTokens">DAF TOKENS</p>
+        <p className="tokenListing">
+          Initial Number Of Tokens: {initialListing}
+        </p>
 
         {connected ? (
           <p className="connected">
@@ -206,8 +253,10 @@ function App(this: any) {
             Connect Wallet
           </button>
         )}
-        <p className="tokenPrice">PRICE PER TOKEN = {price} </p>
-        <p> Input number of tokens you would like to purchase : </p>
+        <p className="priceNumber">${price} USDC </p>
+        <p className="currentPrice">Current Price</p>
+
+        <p className="inputTokens"> Input number of tokens: </p>
 
         <input
           className="inputPrice"
@@ -219,8 +268,10 @@ function App(this: any) {
         <button className="buyTokens" onClick={purchase}>
           Buy Tokens
         </button>
+        <p className="usdcBalance"> USDC balance: ${usdcBalance} </p>
+        <p className="tokensLeft">Tokens left for sale: {chris}</p>
 
-        <p>Total tokens owned: {owned}</p>
+        <p className="tokensOwned">Total tokens owned: {owned}</p>
       </header>
     </div>
   );
