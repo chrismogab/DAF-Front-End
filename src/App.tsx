@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import {
   isMsgInstantiateContractEncodeObject,
   SigningCosmWasmClient,
 } from "@cosmjs/cosmwasm-stargate";
-import {
-  coins,
-  executeKdf,
-  GasPrice,
-  uint64ToNumber,
-  uint64ToString,
-} from "@cosmjs/launchpad";
+// import {
+//   coins,
+//   executeKdf,
+//   GasPrice,
+//   uint64ToNumber,
+//   uint64ToString,
+// } from "@cosmjs/launchpad";
 
 import { Decimal } from "@cosmjs/math";
 import { tokenToString } from "typescript";
@@ -26,7 +25,7 @@ function App(this: any) {
   const [owned, setOwned] = useState(0);
   const [totalAmountOfTokensMinted, setTotalAmountOftokensMinted] = useState(0);
   const [usdcBalance, setUsdcBalance] = useState(0);
-  const [chris, setChris] = useState(0);
+  const [totalTokensLeft, setTotalTokensLeft] = useState(0);
 
   // let totalAmount = 10000;
 
@@ -218,9 +217,9 @@ function App(this: any) {
     );
     // console.log(totalAmountOfTokensMinted.token_supply);
     setTotalAmountOftokensMinted(totalAmountOfTokensMinted.total_supply);
-    const chris = await (initialListing -
+    const totalTokensLeft = await (initialListing -
       totalAmountOfTokensMinted.total_supply);
-    setChris(chris);
+    setTotalTokensLeft(totalTokensLeft);
   };
 
   //hon
@@ -236,8 +235,6 @@ function App(this: any) {
   return (
     <div className="App">
       <header className="App-header">
-        {/* <img src={logo} className="App-logo" alt="logo" /> */}
-        {/* <img src="andromeda.jpeg" className="andromeda" alt="logo " /> */}
         <p className="dafTokens">DAF TOKENS</p>
         <p className="tokenListing">
           Initial Number Of Tokens: {initialListing}
@@ -269,7 +266,7 @@ function App(this: any) {
           Buy Tokens
         </button>
         <p className="usdcBalance"> USDC balance: ${usdcBalance} </p>
-        <p className="tokensLeft">Tokens left for sale: {chris}</p>
+        <p className="tokensLeft">Tokens left for sale: {totalTokensLeft}</p>
 
         <p className="tokensOwned">Total tokens owned: {owned}</p>
       </header>
